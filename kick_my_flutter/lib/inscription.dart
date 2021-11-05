@@ -10,7 +10,6 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'http/transfer.dart';
 import 'i18n/intl_localization.dart';
 
-
 class InscriptionPage extends StatefulWidget {
   InscriptionPage({Key? key, required this.title}) : super(key: key);
 
@@ -38,7 +37,7 @@ class _InscriptionPage extends State<InscriptionPage> {
       var response = await SingletonDio.getDio().post(
           urlServer + '/api/id/signup',
           data: req
-      ).timeout(const Duration(seconds: 5));;
+      ).timeout(const Duration(seconds: 30));
       print(response);
       loadingState();
       Navigator.push(

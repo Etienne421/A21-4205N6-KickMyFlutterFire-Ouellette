@@ -66,7 +66,7 @@ class _AjouterPage extends State<AjouterPage> {
       tacheCourante.deadLine = selectedDate;
       print(tacheCourante.name + ' | ' + tacheCourante.deadLine.toString());
       print(selectedDate);
-      await ajouter(req).timeout(const Duration(seconds: 5));
+      await ajouter(req).timeout(const Duration(seconds: 30));
       print(req);
       loadingState();
       Navigator.push(

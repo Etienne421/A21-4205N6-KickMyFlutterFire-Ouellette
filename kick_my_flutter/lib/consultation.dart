@@ -95,7 +95,7 @@ class _ConsultationPage extends State<ConsultationPage> {
   Future<void> getDetail(int id) async{
     try {
       loadingState();
-      this.response = await detail(id).timeout(const Duration(seconds: 5));
+      this.response = await detail(id).timeout(const Duration(seconds: 30));
       progressCourant = response.percentageDone;
       print(id);
       loadingState();
@@ -121,7 +121,7 @@ class _ConsultationPage extends State<ConsultationPage> {
   Future<void> getProgress(int id, int valeur) async{
     try {
       loadingState();
-      await progress(id, valeur).timeout(const Duration(seconds: 5));
+      await progress(id, valeur).timeout(const Duration(seconds: 30));
       print(valeur);
       Navigator.push(
           context,

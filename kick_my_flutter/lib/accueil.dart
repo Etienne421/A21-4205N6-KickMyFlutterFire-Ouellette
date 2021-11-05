@@ -33,7 +33,7 @@ class _AccueilPage extends State<AccueilPage> {
   void getListAccueil() async{
     try {
       loadingState();
-      this.liste = await listAccueil().timeout(const Duration(seconds: 5));
+      this.liste = await listAccueil().timeout(const Duration(seconds: 30));
 
       loadingState();
       setState(() {});

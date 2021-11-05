@@ -58,7 +58,7 @@ class _ConnectionPage extends State<ConnectionPage> {
   void getSignin(SignupRequest req) async{
     try {
       loadingState();
-      this.response = await signin(req).timeout(const Duration(seconds: 5));
+      this.response = await signin(req).timeout(const Duration(seconds: 30));
       nomUtilisateur = response.username;
       loadingState();
       Navigator.push(
