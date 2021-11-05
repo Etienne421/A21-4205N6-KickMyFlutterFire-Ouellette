@@ -1,0 +1,26 @@
+{
+  "HINT_NAME" : "Username",
+  "HINT_PASSWORD" : "Password",
+  "HINT_CONFIRMATION" : "Confirmation",
+  "ACCUEIL" : "Home",
+  "CONSULTATION" : "Consultation",
+  "ADD" : "Add",
+  "CONNEXION" : "Sign in",
+  "INSCRIPTION" : "Sign up",
+  "DECONNEXION" : "Sign out",
+  "CREATE_ACCOUNT" : "Create account",
+  "SELECT_DATE" : "Select Date",
+  "FINISH" : "Finish",
+  "ADD_IMAGE" : "Add Image",
+  "NAME_TASK" : "Task name",
+  "ERROR_BAD_INFORMATION" : "Bad information",
+  "ERROR_BAD_CONFIRMATION" : "The password and the confirmation were different",
+  "ERROR_ILLEGAL_ARGUMENT" : "Bad information",
+  "ERROR_NETWORK" : "Network error",
+  "ERROR_ALREADY_EXIST" : "That name already exist",
+  "TIME_OUT" : "Bad connection to the server",
+  "ERROR_INFORMATION_CONNECTION" : "The username or the password is wrong",
+  "ERROR_NO_INFORMATION_CONNECTION" : "Fields needs to be fill"
+
+
+}
