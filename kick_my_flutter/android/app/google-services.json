@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "970027697471",
+    "project_id": "kickmyflutterfire",
+    "storage_bucket": "kickmyflutterfire.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970027697471:android:b054c79795a1b922ebff8a",
+        "android_client_info": {
+          "package_name": "com.ouellette.kick_my_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970027697471-d8quupaouhhc0k9bjho00ild020k4tvg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ouellette.kick_my_flutter",
+            "certificate_hash": "19c940f028c90fe0c0a31a685204cdcacbdbff5d"
+          }
+        },
+        {
+          "client_id": "970027697471-3cm9khogt863r4tn5o31mvvkq6nnrk8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYiPxmvh9OsVxfMFoDLgFK4ov3WQigXlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970027697471-3cm9khogt863r4tn5o31mvvkq6nnrk8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
