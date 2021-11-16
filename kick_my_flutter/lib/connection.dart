@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kick_my_flutter/accueil.dart';
 import 'package:kick_my_flutter/inscription.dart';
 import 'package:kick_my_flutter/nameSingleton.dart';
@@ -32,6 +35,52 @@ class _ConnectionPage extends State<ConnectionPage> {
 
   bool _saving = false;
 
+  String utilisateur = "personne";
+
+  @override
+  void initState() {
+    initFirebase();
+  }
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user == null) {
+        this.utilisateur = "personne";
+        setState(() {});
+        print('User is currently signed out!');
+      } else {
+        setState(() {});
+        print('User is signed in!');
+      }
+    });
+  }
+
+
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if(googleUser != null) {
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser!.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } else{
+      print("user is null");
+      throw Error();
+    }
+
+  }
 //   // Inside your _MyAppState class
 //   bool isLoading = false;
 //
