@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -51,6 +52,12 @@ class _ConnectionPage extends State<ConnectionPage> {
         setState(() {});
         print('User is currently signed out!');
       } else {
+        /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
+        );*/
+        setState(() {});
+//        this.utilisateur = user.displayName
         setState(() {});
         print('User is signed in!');
       }
@@ -151,6 +158,26 @@ class _ConnectionPage extends State<ConnectionPage> {
 
   }
 
+  static int tacheCounter = 0;
+
+  void addTache() async{
+    CollectionReference tacheCollection = FirebaseFirestore.instance.collection('try');
+    tacheCollection.add({
+      'name':'try' + tacheCounter.toString(),
+      'type': 'test'
+    });
+    tacheCounter++;
+  }
+
+  void getTaches() async {
+    CollectionReference tacheCollection = FirebaseFirestore.instance.collection('try');
+    var results = await tacheCollection.get();
+    var tacheDocs = results.docs;
+    var tache = tacheDocs[0].data();
+    print(tache);
+
+}
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -169,60 +196,19 @@ class _ConnectionPage extends State<ConnectionPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: 50,
-                width: 300,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blueGrey),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
 
-                child: TextField(
-                  controller: NomController,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))
-                    ),
-                    hintText:Locs.of(context).trans('HINT_NAME'),
-                    //hintText: Locs.of(context).trans('MESSAGE'),
-                  ),
-                ),
-              ),
               Container(
-                height: 50,
-                width: 300,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blueGrey),
-                    borderRadius: BorderRadius.all(Radius.circular(20))
-                ),
                 margin: EdgeInsets.all(20),
-                child: TextField(
-                  controller: PasswordController,
-                  textAlign: TextAlign.center,
-                  obscureText: true,
-                  cursorColor: Colors.deepPurple,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))
-                    ),
-                    hintText:Locs.of(context).trans('HINT_PASSWORD'),
+                child: SizedBox(
+                  height: 50,
+                  width: 300,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      signInWithGoogle();
+                    },
+                    child: Text("Se connecter avec Google"),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => InscriptionPage(title: Locs.of(context).trans('INSCRIPTION')))
-                  );
-                },
-                child: Text(
-                  Locs.of(context).trans('CREATE_ACCOUNT'),
-                  style: TextStyle(color: Colors.deepPurple),
-                )
               ),
               Container(
                 margin: EdgeInsets.all(20),
@@ -231,12 +217,22 @@ class _ConnectionPage extends State<ConnectionPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-                      SignupRequest req = SignupRequest();
-                      req.username = NomController.text.toString();
-                      req.password = PasswordController.text.toString();
-                      var reponse =  getSignin(req);
+                      addTache();
                     },
-                    child: Text(Locs.of(context).trans('CONNEXION')),
+                    child: Text("Ajouter une tache"),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: SizedBox(
+                  height: 50,
+                  width: 300,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      getTaches();
+                    },
+                    child: Text("Recevoir tache"),
                   ),
                 ),
               ),
