@@ -129,8 +129,7 @@ class _ConnectionPage extends State<ConnectionPage> {
     var tacheDocs = results.docs;
     var tache = tacheDocs[0].data();
     print(tache);
-
-}
+  }
 
   @override
   Widget build(BuildContext context) {

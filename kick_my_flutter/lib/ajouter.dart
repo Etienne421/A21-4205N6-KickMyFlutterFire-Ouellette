@@ -12,6 +12,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 
 
 import 'accueil.dart';
+import 'http/model.dart';
 import 'i18n/intl_localization.dart';
 
 class AjouterPage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _AjouterPage extends State<AjouterPage> {
 
   DateTime selectedDate = DateTime.now();
 
-  AddTaskRequest tacheCourante =  AddTaskRequest();
+  Tache tacheCourante =  Tache();
 
   final NomController = TextEditingController();
 
@@ -37,7 +38,7 @@ class _AjouterPage extends State<AjouterPage> {
 
   void _tacheCourante() {
     tacheCourante.name = NomController.text;
-    tacheCourante.deadLine = DateTime.now();
+    tacheCourante.deadline = DateTime.now().toString();
     //tacheCourante.deadLine = selectedDate;
   }
 
@@ -124,7 +125,8 @@ class _AjouterPage extends State<AjouterPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-
+                      _tacheCourante();
+                      postTacheFB(tacheCourante);
                     },
                     child: Text(Locs.of(context).trans('ADD')),
                   ),

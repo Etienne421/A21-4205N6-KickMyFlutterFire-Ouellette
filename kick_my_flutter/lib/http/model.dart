@@ -26,3 +26,12 @@ class Tache {
   factory Tache.fromJson(Map<String, dynamic> json) => _$TacheFromJson(json);
   Map<String, dynamic> toJson() => _$TacheToJson(this);
 }
+
+
+class TacheAccueil extends Tache{
+
+  TacheAccueil();
+
+  String id = '';
+
+}

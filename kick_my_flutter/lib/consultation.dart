@@ -14,13 +14,14 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'dart:io';
 
 import 'accueil.dart';
+import 'http/model.dart';
 import 'i18n/intl_localization.dart';
 
 class ConsultationPage extends StatefulWidget {
-  ConsultationPage({Key? key, required this.title, required this.idele}) : super(key: key);
+  ConsultationPage({Key? key, required this.title, required this.idEle}) : super(key: key);
 
   final String title;
-  final int idele;
+  final String idEle;
 
   @override
   _ConsultationPage createState() => _ConsultationPage();
@@ -34,7 +35,7 @@ class _ConsultationPage extends State<ConsultationPage> {
 
   final NomController = TextEditingController();
 
-  TaskDetailResponse response = new TaskDetailResponse();
+  Tache tacheCourant = Tache();
 
   int progressCourant = 0;
 
@@ -46,11 +47,17 @@ class _ConsultationPage extends State<ConsultationPage> {
 
   @override
   void initState(){
-
+    consultationTache();
   }
 
   void loadingState() {
     _saving = !_saving;
+    setState(() {});
+  }
+
+  void consultationTache() async{
+    tacheCourant = await getTacheFB(widget.idEle);
+    progressCourant = tacheCourant.progression;
     setState(() {});
   }
 
@@ -65,6 +72,13 @@ class _ConsultationPage extends State<ConsultationPage> {
       setState(() {
         selectedDate = picked;
       });
+  }
+  void enregistrer() async{
+    await changeProgressionTacheFB(widget.idEle, progressCourant);
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AccueilPage(title: 'Accueil'))
+    );
   }
 
   @override
@@ -96,7 +110,7 @@ class _ConsultationPage extends State<ConsultationPage> {
                       borderRadius: BorderRadius.all(Radius.circular(20))
                   ),
                   child: Text(
-                      response.name,
+                      tacheCourant.name,
                     style: TextStyle(
                       fontSize: 35
                     ),
@@ -111,7 +125,7 @@ class _ConsultationPage extends State<ConsultationPage> {
                       borderRadius: BorderRadius.all(Radius.circular(20))
                   ),
                   child: Text(
-                      format(response.deadLine),
+                      tacheCourant.deadline.split(" ")[0],
                     style: TextStyle(
                         fontSize: 35
                     ),
@@ -178,6 +192,7 @@ class _ConsultationPage extends State<ConsultationPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () async {
+                      enregistrer();
                     },
                     child: Text(Locs.of(context).trans('FINISH')),
                   ),

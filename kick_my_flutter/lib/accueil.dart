@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kick_my_flutter/ajouter.dart';
 import 'package:kick_my_flutter/connection.dart';
 import 'package:kick_my_flutter/consultation.dart';
@@ -9,6 +10,7 @@ import 'package:kick_my_flutter/tiroir_nav.dart';
 import 'package:kick_my_flutter/util.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
+import 'http/model.dart';
 import 'http/transfer.dart';
 import 'i18n/intl_localization.dart';
 
@@ -25,7 +27,7 @@ class AccueilPage extends StatefulWidget {
 class _AccueilPage extends State<AccueilPage> {
 
 
-  List<HomeItemResponse> liste =[];
+  List<TacheAccueil> liste =[];
 
   bool _saving = false;
 
@@ -36,7 +38,12 @@ class _AccueilPage extends State<AccueilPage> {
 
   @override
   void initState(){
+    accueilTaches();
+  }
 
+  accueilTaches() async{
+    liste = await getTachesFB();
+    setState(() {});
   }
 
   @override
@@ -90,8 +97,14 @@ class _AccueilPage extends State<AccueilPage> {
     );
   }
 
+  String differenceBetweenStringDate(String start, String deadline) {
+    DateTime dateStart = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
+    DateTime dateEnd = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(deadline);
+    String difference = dateEnd.difference(dateStart).inDays.toString();
+    return difference;
+  }
 
-  Widget maListe2(List<HomeItemResponse> listePara) {
+  Widget maListe2(List<TacheAccueil> listePara) {
     return ListView.separated(
         itemCount: liste.length,
         separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black54,),
@@ -100,7 +113,7 @@ class _AccueilPage extends State<AccueilPage> {
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ConsultationPage(title: 'Consultation', idele: listePara[index].id))
+                  MaterialPageRoute(builder: (context) => ConsultationPage(title: 'Consultation', idEle: listePara[index].id))
               );
             },
             child:
@@ -108,41 +121,41 @@ class _AccueilPage extends State<AccueilPage> {
                //Container(height: 20, color: Colors.amber,),
             Row(
               children: [
-                Container(
-                  width: 50,
-                  child: Image.network(
-                      'http://10.0.2.2:8080' + "/file/task/" + listePara[index].id.toString() + "?width=50",
-                      errorBuilder:
-                          (BuildContext context, Object exception, StackTrace? stackTrace) {
-                            //placeholder: 'assets/image/red.jpg'
-                        //return Image.asset('assets/image/red.jpg');
-                            return Container(width: 50,height: 50, color: Colors.black26,);
-                      },
-                    loadingBuilder: (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }else {
-                        return Container(color: Colors.red, width: 50, height: 50,);
-                      }
-                    },
-                  //   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
-                  //     if (loadingProgress == null) return child;
-                  //     return Center(
-                  //       child: CircularProgressIndicator(
-                  //         value: loadingProgress.expectedTotalBytes != null ?
-                  //         loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                  //             : null,
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                    // loadingBuilder: (context, child, loadingProgress) {
-                      // if (loadingProgress == null) return child;
-                      //
-                      // return Container(width:50, child: Text('Loading...'),color: Colors.red,);
-                      // },
-                  ),
-                ),
+                // Container(
+                //   width: 50,
+                //   child: Image.network(
+                //       'http://10.0.2.2:8080' + "/file/task/" + listePara[index].id.toString() + "?width=50",
+                //       errorBuilder:
+                //           (BuildContext context, Object exception, StackTrace? stackTrace) {
+                //             //placeholder: 'assets/image/red.jpg'
+                //         //return Image.asset('assets/image/red.jpg');
+                //             return Container(width: 50,height: 50, color: Colors.black26,);
+                //       },
+                //     loadingBuilder: (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
+                //       if (loadingProgress == null) {
+                //         return child;
+                //       }else {
+                //         return Container(color: Colors.red, width: 50, height: 50,);
+                //       }
+                //     },
+                //   //   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+                //   //     if (loadingProgress == null) return child;
+                //   //     return Center(
+                //   //       child: CircularProgressIndicator(
+                //   //         value: loadingProgress.expectedTotalBytes != null ?
+                //   //         loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                //   //             : null,
+                //   //       ),
+                //   //     );
+                //   //   },
+                //   // ),
+                //     // loadingBuilder: (context, child, loadingProgress) {
+                //       // if (loadingProgress == null) return child;
+                //       //
+                //       // return Container(width:50, child: Text('Loading...'),color: Colors.red,);
+                //       // },
+                //   ),
+                // ),
                 Expanded(
                   child: Column(
                     children: [
@@ -164,7 +177,7 @@ class _AccueilPage extends State<AccueilPage> {
                                   color: Colors.white,
                                 ),
                                 //child: Center(child: Text(listePara[index].deadline.toString()))
-                                child: Center(child: Text(format(listePara[index].deadline))),),
+                                child: Center(child: Text(listePara[index].deadline.split(" ")[0])),),
                             )
                       ],),
                       Row(children: [
@@ -174,7 +187,13 @@ class _AccueilPage extends State<AccueilPage> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                 ),
-                                child: Center(child: Text(listePara[index].percentageTimeSpent.toString()))
+                                child: Center(child: Text(
+                                    differenceBetweenStringDate(
+                                        listePara[index].start.substring(0,listePara[index].start.length - 7),
+                                        listePara[index].deadline.substring(0,listePara[index].start.length - 7),
+                                    ) + " jours"
+                                )
+                                )
                             )
                         ),
                         Expanded(
@@ -183,7 +202,7 @@ class _AccueilPage extends State<AccueilPage> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                 ),
-                                child: Center(child: Text(listePara[index].percentageDone.toString() + '%'))
+                                child: Center(child: Text(listePara[index].progression.toString() + '%'))
                             )
                         )
                       ],),
