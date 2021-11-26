@@ -29,32 +29,6 @@ class _AccueilPage extends State<AccueilPage> {
 
   bool _saving = false;
 
-
-  void getListAccueil() async{
-    try {
-      loadingState();
-      this.liste = await listAccueil().timeout(const Duration(seconds: 30));
-
-      loadingState();
-      setState(() {});
-    } on TimeoutException {
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('TIME_OUT'))
-          )
-      );
-    } catch (e) {
-      print(e);
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('ERROR_NETWORK'))
-          )
-      );
-    }
-  }
-
   void loadingState() {
     _saving = !_saving;
     setState(() {});
@@ -62,7 +36,7 @@ class _AccueilPage extends State<AccueilPage> {
 
   @override
   void initState(){
-    getListAccueil();
+
   }
 
   @override

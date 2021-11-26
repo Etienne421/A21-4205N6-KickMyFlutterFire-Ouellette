@@ -96,7 +96,7 @@ class LeTiroirState extends State<LeTiroir> {
 
   Future<void> getSignout() async{
     try {
-      await signout();
+
     } catch (e) {
       print(e);
     }

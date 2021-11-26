@@ -46,7 +46,7 @@ class _ConsultationPage extends State<ConsultationPage> {
 
   @override
   void initState(){
-    getDetail(widget.idele);
+
   }
 
   void loadingState() {
@@ -54,31 +54,6 @@ class _ConsultationPage extends State<ConsultationPage> {
     setState(() {});
   }
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      print("l'image a ete choisie " + pickedFile.path.toString());
-      _imageFile = File(pickedFile.path);
-      setState(() {});
-    } else {
-      print('Pas de choix effectue.');
-    }
-  }
-
-  Future sendPic(int idPar, File filePar) async {
-    try {
-      loadingState();
-      await sendPicture(idPar, filePar);
-      NetworkImage('http://10.0.2.2:8080' + "/file/task/" + widget.idele.toString() + "?width=50").evict();
-      loadingState();
-    } catch (e) {
-      print(e);
-      loadingState();
-      throw(e);
-    }
-
-
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -90,61 +65,6 @@ class _ConsultationPage extends State<ConsultationPage> {
       setState(() {
         selectedDate = picked;
       });
-  }
-
-  Future<void> getDetail(int id) async{
-    try {
-      loadingState();
-      this.response = await detail(id).timeout(const Duration(seconds: 30));
-      progressCourant = response.percentageDone;
-      print(id);
-      loadingState();
-      setState(() {});
-    } on TimeoutException {
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('TIME_OUT'))
-          )
-      );
-    } catch (e) {
-      print(e);
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('ERROR_NETWORK'))
-          )
-      );
-    }
-  }
-
-  Future<void> getProgress(int id, int valeur) async{
-    try {
-      loadingState();
-      await progress(id, valeur).timeout(const Duration(seconds: 30));
-      print(valeur);
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
-      );
-      loadingState();
-      setState(() {});
-    } on TimeoutException {
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('TIME_OUT'))
-          )
-      );
-    } catch (e) {
-      print(e);
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('ERROR_NETWORK'))
-          )
-      );
-    }
   }
 
   @override
@@ -246,7 +166,6 @@ class _ConsultationPage extends State<ConsultationPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-                      getImage();
                     },
                     child: Text(Locs.of(context).trans('ADD_IMAGE')),
                   ),
@@ -259,8 +178,6 @@ class _ConsultationPage extends State<ConsultationPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await sendPic(widget.idele, _imageFile);
-                      getProgress(widget.idele, progressCourant);
                     },
                     child: Text(Locs.of(context).trans('FINISH')),
                   ),

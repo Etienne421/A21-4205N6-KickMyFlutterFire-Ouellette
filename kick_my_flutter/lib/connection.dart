@@ -111,52 +111,6 @@ class _ConnectionPage extends State<ConnectionPage> {
     setState(() {});
   }
 
-  void getSignin(SignupRequest req) async{
-    try {
-      loadingState();
-      this.response = await signin(req).timeout(const Duration(seconds: 30));
-      nomUtilisateur = response.username;
-      loadingState();
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
-      );
-      setState(() {});
-      //return  SigninResponse.fromJson(response.data);
-    } on TimeoutException catch (e) {
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('TIME_OUT'))
-          )
-      );
-    } on DioError catch(e) {
-      print(e);
-      loadingState();
-      String message = e.response!.data;
-      if (message == "BadCredentialsException") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(Locs.of(context).trans('ERROR_INFORMATION_CONNECTION'))
-            )
-        );
-      } else if (message == "InternalAuthenticationServiceException") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(Locs.of(context).trans('ERROR_NO_INFORMATION_CONNECTION'))
-            )
-        );
-      }  else {
-        loadingState();
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(Locs.of(context).trans('ERROR_NETWORK'))
-            )
-        );
-      }
-    }
-
-  }
 
   static int tacheCounter = 0;
 
@@ -233,6 +187,22 @@ class _ConnectionPage extends State<ConnectionPage> {
                       getTaches();
                     },
                     child: Text("Recevoir tache"),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: SizedBox(
+                  height: 50,
+                  width: 300,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AccueilPage(title: 'Accueil'))
+                      );
+                    },
+                    child: Text("Aller à l'accueil"),
                   ),
                 ),
               ),

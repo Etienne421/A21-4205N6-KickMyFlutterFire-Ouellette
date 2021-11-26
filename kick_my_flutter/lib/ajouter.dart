@@ -59,55 +59,6 @@ class _AjouterPage extends State<AjouterPage> {
       });
   }
 
-  Future<void> getAjouter(AddTaskRequest req) async{
-    try {
-      loadingState();
-      tacheCourante.name = NomController.text;
-      tacheCourante.deadLine = selectedDate;
-      print(tacheCourante.name + ' | ' + tacheCourante.deadLine.toString());
-      print(selectedDate);
-      await ajouter(req).timeout(const Duration(seconds: 30));
-      print(req);
-      loadingState();
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AccueilPage(title: 'Accueil'))
-      );
-      setState(() {});
-    } on TimeoutException catch(e){
-      loadingState();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(Locs.of(context).trans('TIME_OUT'))
-          )
-      );
-    } on DioError catch(e) {
-      print(e);
-      loadingState();
-      String message = e.response!.data;
-      if (message == "IllegalArgumentException") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(Locs.of(context).trans('ERROR_ILLEGAL_ARGUMENT'))
-            )
-        );
-      } else if (message == "Existing") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(Locs.of(context).trans('ERROR_ALREADY_EXIST'))
-            )
-        );
-      } else {
-        loadingState();
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(Locs.of(context).trans('ERROR_NETWORK'))
-            )
-        );
-      }
-    }
-  }
-
 
   @override
   void dispose() {
@@ -173,7 +124,7 @@ class _AjouterPage extends State<AjouterPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-                      getAjouter(tacheCourante);
+
                     },
                     child: Text(Locs.of(context).trans('ADD')),
                   ),
