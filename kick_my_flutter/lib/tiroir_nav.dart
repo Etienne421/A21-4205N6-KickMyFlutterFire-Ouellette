@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kick_my_flutter/accueil.dart';
 import 'package:kick_my_flutter/ajouter.dart';
 import 'package:kick_my_flutter/connection.dart';
@@ -72,7 +73,8 @@ class LeTiroirState extends State<LeTiroir> {
           leading: Icon(Icons.arrow_back),
           title: Text(Locs.of(context).trans('DECONNEXION')),
           onTap: () async{
-            await getSignout();
+            await GoogleSignIn().disconnect();
+            await FirebaseAuth.instance.signOut();
             Navigator.of(context).pop();
             Navigator.push(
               context,
