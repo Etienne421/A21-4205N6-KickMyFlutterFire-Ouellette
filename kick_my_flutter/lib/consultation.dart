@@ -3,7 +3,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kick_my_flutter/http/transfer.dart';
@@ -12,6 +15,7 @@ import 'package:kick_my_flutter/util.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'dart:io';
+
 
 import 'accueil.dart';
 import 'http/model.dart';
@@ -79,6 +83,27 @@ class _ConsultationPage extends State<ConsultationPage> {
         context,
         MaterialPageRoute(builder: (context) => AccueilPage(title: 'Accueil'))
     );
+  }
+
+
+  String imageURL = '';
+  void pickImage() async{
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+    if(result != null){
+      File file = File(result.files.single.path!);
+
+      DocumentReference imageDoc = await FirebaseFirestore.instance.collection('images').add({
+        'url':''
+      });
+
+      Reference imageRef = FirebaseStorage.instance.ref(imageDoc.id + '.jpg');
+      await imageRef.putFile(file);
+      imageURL = await imageRef.getDownloadURL();
+      setState(() {});
+    } else {
+
+    }
+
   }
 
   @override
@@ -167,12 +192,7 @@ class _ConsultationPage extends State<ConsultationPage> {
                   ),
                 ],
               ),
-              _imageFile == null ?
-              Container(height: 25,) :
-              SizedBox(
-                child: Image.file(_imageFile),
-                height: 100,
-              ),
+              (imageURL!='')?Image.network(imageURL, height: 100):Text("pas encore d'image"),
               Container(
                 margin: EdgeInsets.all(20),
                 child: SizedBox(
@@ -180,6 +200,7 @@ class _ConsultationPage extends State<ConsultationPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
+                      pickImage();
                     },
                     child: Text(Locs.of(context).trans('ADD_IMAGE')),
                   ),
