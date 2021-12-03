@@ -57,7 +57,8 @@ class _ConnectionPage extends State<ConnectionPage> {
             MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
         );*/
         setState(() {});
-//        this.utilisateur = user.displayName
+        this.utilisateur = user.displayName!;
+
         setState(() {});
         print('User is signed in!');
       }
@@ -114,22 +115,6 @@ class _ConnectionPage extends State<ConnectionPage> {
 
   static int tacheCounter = 0;
 
-  void addTache() async{
-    CollectionReference tacheCollection = FirebaseFirestore.instance.collection('try');
-    tacheCollection.add({
-      'name':'try' + tacheCounter.toString(),
-      'type': 'test'
-    });
-    tacheCounter++;
-  }
-
-  void getTaches() async {
-    CollectionReference tacheCollection = FirebaseFirestore.instance.collection('try');
-    var results = await tacheCollection.get();
-    var tacheDocs = results.docs;
-    var tache = tacheDocs[0].data();
-    print(tache);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,32 +145,6 @@ class _ConnectionPage extends State<ConnectionPage> {
                       signInWithGoogle();
                     },
                     child: Text("Se connecter avec Google"),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(20),
-                child: SizedBox(
-                  height: 50,
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      addTache();
-                    },
-                    child: Text("Ajouter une tache"),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(20),
-                child: SizedBox(
-                  height: 50,
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      getTaches();
-                    },
-                    child: Text("Recevoir tache"),
                   ),
                 ),
               ),

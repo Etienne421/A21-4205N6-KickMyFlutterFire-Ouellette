@@ -121,41 +121,10 @@ class _AccueilPage extends State<AccueilPage> {
                //Container(height: 20, color: Colors.amber,),
             Row(
               children: [
-                // Container(
-                //   width: 50,
-                //   child: Image.network(
-                //       'http://10.0.2.2:8080' + "/file/task/" + listePara[index].id.toString() + "?width=50",
-                //       errorBuilder:
-                //           (BuildContext context, Object exception, StackTrace? stackTrace) {
-                //             //placeholder: 'assets/image/red.jpg'
-                //         //return Image.asset('assets/image/red.jpg');
-                //             return Container(width: 50,height: 50, color: Colors.black26,);
-                //       },
-                //     loadingBuilder: (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
-                //       if (loadingProgress == null) {
-                //         return child;
-                //       }else {
-                //         return Container(color: Colors.red, width: 50, height: 50,);
-                //       }
-                //     },
-                //   //   loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
-                //   //     if (loadingProgress == null) return child;
-                //   //     return Center(
-                //   //       child: CircularProgressIndicator(
-                //   //         value: loadingProgress.expectedTotalBytes != null ?
-                //   //         loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                //   //             : null,
-                //   //       ),
-                //   //     );
-                //   //   },
-                //   // ),
-                //     // loadingBuilder: (context, child, loadingProgress) {
-                //       // if (loadingProgress == null) return child;
-                //       //
-                //       // return Container(width:50, child: Text('Loading...'),color: Colors.red,);
-                //       // },
-                //   ),
-                // ),
+                Container(
+                  width: 50,
+                  child: (listePara[index].path!='')?Image.network(listePara[index].path, height: 50):Text("X"),
+                ),
                 Expanded(
                   child: Column(
                     children: [

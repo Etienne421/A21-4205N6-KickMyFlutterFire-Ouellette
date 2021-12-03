@@ -98,3 +98,10 @@ Future<void> changeProgressionTacheFB(String id, int progression) async {
   });
 
 }
+
+Future<void> changePathTacheFB(String id, String path) async {
+  await generateTacheCollection().doc(id).update({
+    'path' : path
+  });
+
+}
