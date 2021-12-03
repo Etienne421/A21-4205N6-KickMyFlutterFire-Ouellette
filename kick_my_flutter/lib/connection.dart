@@ -134,7 +134,6 @@ class _ConnectionPage extends State<ConnectionPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
               Container(
                 margin: EdgeInsets.all(20),
                 child: SizedBox(

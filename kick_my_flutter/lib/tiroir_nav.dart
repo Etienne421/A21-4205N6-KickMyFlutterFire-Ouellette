@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kick_my_flutter/accueil.dart';
 import 'package:kick_my_flutter/ajouter.dart';
@@ -30,7 +31,7 @@ class LeTiroirState extends State<LeTiroir> {
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Text(
-              nomUtilisateur,
+              (FirebaseAuth.instance.currentUser!.displayName!=null?FirebaseAuth.instance.currentUser!.displayName:Text('')).toString(),
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,

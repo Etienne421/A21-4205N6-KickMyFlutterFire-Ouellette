@@ -92,13 +92,13 @@ class _ConsultationPage extends State<ConsultationPage> {
     if(result != null){
       File file = File(result.files.single.path!);
 
-      DocumentReference imageDoc = await FirebaseFirestore.instance.collection('taches').add({
-        'url':''
-      });
 
-      Reference imageRef = FirebaseStorage.instance.ref(imageDoc.id + '.jpg');
+
+      Reference imageRef = FirebaseStorage.instance.ref(widget.idEle + '.jpg');
       await imageRef.putFile(file);
       imageURL = await imageRef.getDownloadURL();
+
+
       changePathTacheFB(widget.idEle, imageURL);
       setState(() {});
     } else {
