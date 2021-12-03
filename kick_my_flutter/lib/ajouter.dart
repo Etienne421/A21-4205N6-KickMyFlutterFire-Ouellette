@@ -61,6 +61,14 @@ class _AjouterPage extends State<AjouterPage> {
       });
   }
 
+  void termine() {
+    postTacheFB(tacheCourante);
+
+    Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
+    );
+  }
 
   @override
   void dispose() {
