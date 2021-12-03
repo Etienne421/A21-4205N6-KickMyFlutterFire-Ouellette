@@ -157,10 +157,12 @@ class _AccueilPage extends State<AccueilPage> {
                                   color: Colors.white,
                                 ),
                                 child: Center(child: Text(
+                                    listePara[index].start!=''?
                                     differenceBetweenStringDate(
-                                        listePara[index].start.substring(0,listePara[index].start.length - 7),
-                                        listePara[index].deadline.substring(0,listePara[index].start.length - 7),
-                                    ) + " jours"
+                                      listePara[index].start.substring(0,listePara[index].start.length - 7),
+                                      listePara[index].deadline.substring(0,listePara[index].start.length - 7),
+                                    ) + " jours" :
+                                        ''
                                 )
                                 )
                             )

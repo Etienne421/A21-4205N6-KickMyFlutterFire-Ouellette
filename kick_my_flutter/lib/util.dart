@@ -74,7 +74,7 @@ Future<List<TacheAccueil>> getTachesFB() async {
     tacheCourante.id = tacheDocs[i].id;
     tacheCourante.name = tacheDocs[i].data().name;
     tacheCourante.progression = tacheDocs[i].data().progression;
-    tacheCourante.deadline = tacheDocs[i].data().start;
+    tacheCourante.deadline = tacheDocs[i].data().deadline;
     tacheCourante.start = tacheDocs[i].data().start;
     tacheCourante.path = tacheDocs[i].data().path;
     tacheCourante.userId = tacheDocs[i].data().userId;

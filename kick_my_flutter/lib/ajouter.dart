@@ -38,7 +38,8 @@ class _AjouterPage extends State<AjouterPage> {
 
   void _tacheCourante() {
     tacheCourante.name = NomController.text;
-    tacheCourante.deadline = DateTime.now().toString();
+    tacheCourante.deadline = selectedDate.toString();
+    tacheCourante.start = DateTime.now().toString();
     //tacheCourante.deadLine = selectedDate;
   }
 
@@ -127,6 +128,10 @@ class _AjouterPage extends State<AjouterPage> {
                     onPressed: () {
                       _tacheCourante();
                       postTacheFB(tacheCourante);
+                      Navigator.push(
+                      context,
+                          MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
+                      );
                     },
                     child: Text(Locs.of(context).trans('ADD')),
                   ),
