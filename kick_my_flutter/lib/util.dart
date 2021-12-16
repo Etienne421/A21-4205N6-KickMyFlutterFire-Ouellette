@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:kick_my_flutter/http/model.dart';
 
@@ -60,13 +61,15 @@ CollectionReference<Tache> generateTacheCollection() {
 
 void postTacheFB(Tache req) async{
   CollectionReference<Tache> tacheCollection = generateTacheCollection();
-  tacheCollection.add(req);
+  Tache tacheCourant = req;
+  tacheCourant.userId = FirebaseAuth.instance.currentUser!.uid;
+  tacheCollection.add(tacheCourant);
 }
 
 
 Future<List<TacheAccueil>> getTachesFB() async {
   CollectionReference<Tache> tacheCollection = generateTacheCollection();
-  var results = await tacheCollection.get();
+  var results = await tacheCollection.where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
   var tacheDocs = results.docs;
   List<TacheAccueil> liste = [];
   for(int i = 0; i < tacheDocs.length; i++){
@@ -104,4 +107,22 @@ Future<void> changePathTacheFB(String id, String path) async {
     'path' : path
   });
 
+}
+
+Future<bool> verifierSiTacheExiste(Tache tache) async {
+  CollectionReference<Tache> tacheCollection = generateTacheCollection();
+  var results = await tacheCollection.where('name', isEqualTo: tache.name).get();
+  var tacheDocs = results.docs;
+  if (tacheDocs.length > 0){
+    return false;
+  } else {
+    return true;
+  }
+}
+
+String differenceBetweenStringDate(String start, String deadline) {
+  DateTime dateStart = new DateFormat("yyyy-MM-dd").parse(start);
+  DateTime dateEnd = new DateFormat("yyyy-MM-dd").parse(deadline);
+  String difference = dateEnd.difference(dateStart).inDays.toString();
+  return difference;
 }

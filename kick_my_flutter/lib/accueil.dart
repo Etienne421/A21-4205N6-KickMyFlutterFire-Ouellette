@@ -97,12 +97,7 @@ class _AccueilPage extends State<AccueilPage> {
     );
   }
 
-  String differenceBetweenStringDate(String start, String deadline) {
-    DateTime dateStart = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
-    DateTime dateEnd = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(deadline);
-    String difference = dateEnd.difference(dateStart).inDays.toString();
-    return difference;
-  }
+
 
   Widget maListe2(List<TacheAccueil> listePara) {
     return ListView.separated(

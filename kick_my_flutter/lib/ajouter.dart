@@ -61,13 +61,42 @@ class _AjouterPage extends State<AjouterPage> {
       });
   }
 
-  void termine() {
-    postTacheFB(tacheCourante);
+  void termine() async {
+    _tacheCourante();
+    if(tacheCourante.name != ""){
+      DateTime dateDeadline = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(tacheCourante.deadline);
+      if(dateDeadline.isAfter(DateTime.now())){
+        if(await verifierSiTacheExiste(tacheCourante)){
+          tacheCourante.name.trim();
+          postTacheFB(tacheCourante);
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text('La tache existe déjâ')
+              )
+          );
+        }
 
-    Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
-    );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('La date doit être dans le future')
+            )
+        );
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Le nom de la tache ne peut pas être vide')
+          )
+      );
+    }
+
+
   }
 
   @override
@@ -134,12 +163,7 @@ class _AjouterPage extends State<AjouterPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-                      _tacheCourante();
-                      postTacheFB(tacheCourante);
-                      Navigator.push(
-                      context,
-                          MaterialPageRoute(builder: (context) => AccueilPage(title: Locs.of(context).trans('ACCUEIL')))
-                      );
+                      termine();
                     },
                     child: Text(Locs.of(context).trans('ADD')),
                   ),
