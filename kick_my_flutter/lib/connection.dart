@@ -61,6 +61,10 @@ class _ConnectionPage extends State<ConnectionPage> {
 
         setState(() {});
         print('User is signed in!');
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AccueilPage(title: 'Accueil'))
+        );
       }
     });
   }
@@ -144,22 +148,6 @@ class _ConnectionPage extends State<ConnectionPage> {
                       signInWithGoogle();
                     },
                     child: Text("Se connecter avec Google"),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(20),
-                child: SizedBox(
-                  height: 50,
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AccueilPage(title: 'Accueil'))
-                      );
-                    },
-                    child: Text("Aller à l'accueil"),
                   ),
                 ),
               ),
